@@ -8,15 +8,26 @@ namespace xadrez_console
     {
         static void Main(string[] args)
         {
+            var aux = Console.ForegroundColor;
+            Console.WriteLine("AS PEÇAS BRANCAS SERÃO: ");
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine();
+            Console.Write("     VERDES ");
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.ForegroundColor = aux;
+            Console.WriteLine("AS PEÇAS PRETAS SERÃO: ");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine();
+            Console.Write("     VERMELHAS ");
+            Console.ForegroundColor = aux;
+            Console.WriteLine();
+            Console.WriteLine();
             try
             {
-                Tabuleiro tab = new Tabuleiro(8, 8);
+                PartidaDeXadrez partida = new PartidaDeXadrez();
 
-                tab.colocarPeca(new Torre(tab, Cor.Preta), new Posicao(0, 0));
-                tab.colocarPeca(new Torre(tab, Cor.Preta), new Posicao(1, 3));
-                tab.colocarPeca(new Rei(tab, Cor.Branca), new Posicao(0, 2));
-
-                Tela.imprimirTabuleiro(tab);
+                Tela.imprimirTabuleiro(partida.tab);
             }
             catch (TabuleiroException tex)
             {
