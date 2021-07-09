@@ -152,5 +152,84 @@ namespace xadrez_console
             
             Console.ForegroundColor = ConsoleColor.White;
         }
+
+        public static void exibeMensagens(ConsoleColor aux)
+        {
+            Console.Clear();
+            Console.Write("AS PEÇAS BRANCAS SERÃO: ");
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("     VERDES ");
+            Console.WriteLine();
+            Console.ForegroundColor = aux;
+            Console.Write("AS PEÇAS PRETAS SERÃO: ");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write("     VERMELHAS ");
+            Console.ForegroundColor = aux;
+            Console.WriteLine();
+            Console.WriteLine();
+        }
+
+        public static void exibeTurno(PartidaDeXadrez partida)
+        {
+            Console.WriteLine();
+            Console.WriteLine("Turno: " + partida.turno);
+            Console.WriteLine("--------");
+            Console.WriteLine();
+        }
+
+        private static void checaJogador(PartidaDeXadrez partida)
+        {
+            if (partida.jogadorAtual == Cor.Branca)
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+            }
+        }
+
+        public static void exibePossiveisJogadas(PartidaDeXadrez partida, ConsoleColor aux)
+        {
+            try
+            {
+                exibeTurno(partida);
+                checaJogador(partida);
+                Console.WriteLine("Aguardando jogada: " + partida.jogadorAtual);
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.Write("Origem: ");
+                Posicao origem = Tela.lerPosicaoXadrez().toPosicao();
+                partida.validarPosicaoDeOrigem(origem);
+                bool[,] posicoesPossiveis = partida.tab.peca(origem).movimentosPossiveis();
+
+                Tela.exibeMensagens(aux);
+                Tela.imprimirTabuleiro(partida.tab, posicoesPossiveis);
+                aguardaJogada(partida, origem);
+                Tela.exibeMensagens(aux);
+                Tela.imprimirTabuleiro(partida.tab, posicoesPossiveis);
+            }
+            catch (TabuleiroException tex)
+            {
+                Console.WriteLine();
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.WriteLine(tex.Message);
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.WriteLine("Aperte novamente enter para continuar...");
+                Console.ReadLine();
+            }
+            
+        }
+
+        public static void aguardaJogada(PartidaDeXadrez partida, Posicao origem)
+        {
+            exibeTurno(partida);
+            checaJogador(partida);
+            Console.WriteLine("Aguardando jogada: " + partida.jogadorAtual);
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.Write("Destino: ");
+            Posicao destino = Tela.lerPosicaoXadrez().toPosicao();
+            partida.validarPosicaoDeDestino(origem, destino);
+            partida.realizaJogada(origem, destino);
+        }
     }
 }
