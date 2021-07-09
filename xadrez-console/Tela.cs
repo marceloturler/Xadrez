@@ -1,6 +1,7 @@
 ﻿using System;
 using xadrez;
 using tabuleiro;
+using System.Collections.Generic;
 
 namespace xadrez_console
 {
@@ -46,8 +47,6 @@ namespace xadrez_console
             Console.BackgroundColor = ConsoleColor.Black;
             Console.WriteLine("    A B C D E F G H");
         }
-
-        
 
         public static void imprimirTabuleiro(Tabuleiro tab, bool[,] posPossiveis)
         {
@@ -153,8 +152,9 @@ namespace xadrez_console
             Console.ForegroundColor = ConsoleColor.White;
         }
 
-        public static void exibeMensagens(ConsoleColor aux)
+        public static void exibeMensagens(PartidaDeXadrez partida, ConsoleColor aux)
         {
+            Console.ForegroundColor = ConsoleColor.White;
             Console.Clear();
             Console.Write("AS PEÇAS BRANCAS SERÃO: ");
             Console.ForegroundColor = ConsoleColor.Green;
@@ -166,7 +166,37 @@ namespace xadrez_console
             Console.Write("     VERMELHAS ");
             Console.ForegroundColor = aux;
             Console.WriteLine();
+            imprimirPecasJogador(partida);
+        }
+
+        public static void imprimirPecasJogador(PartidaDeXadrez partida)
+        {
             Console.WriteLine();
+            Console.WriteLine("==========================================================");
+            
+            imprimirPecasCapturadas(partida);
+            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.WriteLine("==========================================================");
+            Console.WriteLine();
+
+        }
+
+        private static void imprimirPecasCapturadas(PartidaDeXadrez partida)
+        {
+            checaJogador(partida);
+            Console.Write("Peças capturadas - Jogador " + partida.jogadorAtual);
+            imprimirConjunto(partida.pecasCapturadas(partida.jogadorAtual));
+            Console.WriteLine();
+        }
+
+        private static void imprimirConjunto(HashSet<Peca> conjunto)
+        {
+            Console.Write("[");
+            foreach (Peca x in conjunto)
+            {
+                Console.Write(x + " ");
+            }
+            Console.Write("]");
         }
 
         public static void exibeTurno(PartidaDeXadrez partida)
@@ -202,11 +232,11 @@ namespace xadrez_console
                 partida.validarPosicaoDeOrigem(origem);
                 bool[,] posicoesPossiveis = partida.tab.peca(origem).movimentosPossiveis();
 
-                Tela.exibeMensagens(aux);
-                Tela.imprimirTabuleiro(partida.tab, posicoesPossiveis);
+                exibeMensagens(partida, aux);
+                imprimirTabuleiro(partida.tab, posicoesPossiveis);
                 aguardaJogada(partida, origem);
-                Tela.exibeMensagens(aux);
-                Tela.imprimirTabuleiro(partida.tab, posicoesPossiveis);
+                exibeMensagens(partida, aux);
+                imprimirTabuleiro(partida.tab, posicoesPossiveis);
             }
             catch (TabuleiroException tex)
             {

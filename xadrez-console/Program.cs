@@ -16,13 +16,12 @@ namespace xadrez_console
 
                 while (!partida.terminada)
                 {
-                    Tela.exibeMensagens(aux);
+                    Tela.exibeMensagens(partida, aux);
                     Tela.imprimirTabuleiro(partida.tab);
-                    
                     Tela.exibePossiveisJogadas(partida, aux);
                 }
 
-                Tela.exibeMensagens(aux);
+                Tela.exibeMensagens(partida, aux);
                 Tela.imprimirTabuleiro(partida.tab);
             }
             catch (TabuleiroException tex)
