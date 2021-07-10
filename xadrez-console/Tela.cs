@@ -9,6 +9,7 @@ namespace xadrez_console
     {
         public static void imprimirTabuleiro(Tabuleiro tab)
         {
+            Console.SetWindowSize(Console.WindowWidth, Console.LargestWindowHeight);
             Console.BackgroundColor = ConsoleColor.Black;
             Console.Write("  ");
             Console.BackgroundColor = ConsoleColor.Gray;
@@ -173,12 +174,11 @@ namespace xadrez_console
         {
             Console.WriteLine();
             Console.WriteLine("==========================================================");
-            
             imprimirPecasCapturadas(partida);
+            partida.alertaXequeAoSeuRei();
             Console.ForegroundColor = ConsoleColor.Gray;
             Console.WriteLine("==========================================================");
             Console.WriteLine();
-
         }
 
         private static void imprimirPecasCapturadas(PartidaDeXadrez partida)
@@ -227,6 +227,7 @@ namespace xadrez_console
                 checaJogador(partida);
                 Console.WriteLine("Aguardando jogada: " + partida.jogadorAtual);
                 Console.ForegroundColor = ConsoleColor.White;
+                Console.WriteLine(" ");
                 Console.Write("Origem: ");
                 Posicao origem = Tela.lerPosicaoXadrez().toPosicao();
                 partida.validarPosicaoDeOrigem(origem);
@@ -247,7 +248,6 @@ namespace xadrez_console
                 Console.WriteLine("Aperte novamente enter para continuar...");
                 Console.ReadLine();
             }
-            
         }
 
         public static void aguardaJogada(PartidaDeXadrez partida, Posicao origem)
@@ -256,6 +256,7 @@ namespace xadrez_console
             checaJogador(partida);
             Console.WriteLine("Aguardando jogada: " + partida.jogadorAtual);
             Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine();
             Console.Write("Destino: ");
             Posicao destino = Tela.lerPosicaoXadrez().toPosicao();
             partida.validarPosicaoDeDestino(origem, destino);

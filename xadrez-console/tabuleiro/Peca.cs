@@ -20,7 +20,12 @@
             qtdeMovimentos++;
         }
 
-        public bool existmeMovimentosPossiveis()
+        public void decrementarQtdeMovimentos()
+        {
+            qtdeMovimentos--;
+        }
+
+        public bool existemMovimentosPossiveis()
         {
             bool[,] matrizMov = movimentosPossiveis();
             for (int i = 0; i < tab.linhas; i++)
