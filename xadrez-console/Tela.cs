@@ -153,6 +153,22 @@ namespace xadrez_console
             Console.ForegroundColor = ConsoleColor.White;
         }
 
+        public static void exibeGanhador(PartidaDeXadrez partida)
+        {
+            Console.WriteLine();
+            Console.WriteLine("-*-*-*-*-*-*-*-*-*-*-");
+            Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("     XEQUEMATE!     ");
+            Console.WriteLine();
+            checaJogador(partida);
+            Console.WriteLine("  Vencedor: " + partida.jogadorAtual);
+            Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("-*-*-*-*-*-*-*-*-*-*-");
+            
+        }
+
         public static void exibeMensagens(PartidaDeXadrez partida, ConsoleColor aux)
         {
             Console.ForegroundColor = ConsoleColor.White;
@@ -236,8 +252,8 @@ namespace xadrez_console
                 exibeMensagens(partida, aux);
                 imprimirTabuleiro(partida.tab, posicoesPossiveis);
                 aguardaJogada(partida, origem);
-                exibeMensagens(partida, aux);
-                imprimirTabuleiro(partida.tab, posicoesPossiveis);
+                //exibeMensagens(partida, aux);
+                //imprimirTabuleiro(partida.tab, posicoesPossiveis);
             }
             catch (TabuleiroException tex)
             {
