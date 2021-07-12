@@ -4,8 +4,11 @@ namespace xadrez
 {
     class Peao : Peca
     {
-        public Peao(Tabuleiro tab, Cor cor) : base(tab, cor)
+        private PartidaDeXadrez partida;
+
+        public Peao(Tabuleiro tab, Cor cor, PartidaDeXadrez partida) : base(tab, cor)
         {
+            this.partida = partida;
         }
 
         public override string ToString()
@@ -27,53 +30,84 @@ namespace xadrez
         public override bool[,] movimentosPossiveis()
         {
             bool[,] mat = new bool[tab.linhas, tab.colunas];
-            Posicao pos = new Posicao(0, 0);
+            Posicao posMov = new Posicao(0, 0);
 
             if (cor == Cor.Branca)
             {
-                pos.definirValores(posicao.linha - 1, posicao.coluna);
-                if (tab.posicaoValida(pos) && posicaoLivre(pos))
+                posMov.definirValores(posicao.linha - 1, posicao.coluna);
+                if (tab.posicaoValida(posMov) && posicaoLivre(posMov))
                 {
-                    mat[pos.linha, pos.coluna] = true;
+                    mat[posMov.linha, posMov.coluna] = true;
                 }
-                pos.definirValores(posicao.linha - 2, posicao.coluna);
-                if (tab.posicaoValida(pos) && posicaoLivre(pos) && qtdeMovimentos == 0)
+                posMov.definirValores(posicao.linha - 2, posicao.coluna);
+                if (tab.posicaoValida(posMov) && posicaoLivre(posMov) && qtdeMovimentos == 0)
                 {
-                    mat[pos.linha, pos.coluna] = true;
+                    mat[posMov.linha, posMov.coluna] = true;
                 }
-                pos.definirValores(posicao.linha - 1, posicao.coluna - 1);
-                if (tab.posicaoValida(pos) && existeInimigo(pos))
+                posMov.definirValores(posicao.linha - 1, posicao.coluna - 1);
+                if (tab.posicaoValida(posMov) && existeInimigo(posMov))
                 {
-                    mat[pos.linha, pos.coluna] = true;
+                    mat[posMov.linha, posMov.coluna] = true;
                 }
-                pos.definirValores(posicao.linha - 1, posicao.coluna + 1);
-                if (tab.posicaoValida(pos) && existeInimigo(pos))
+                posMov.definirValores(posicao.linha - 1, posicao.coluna + 1);
+                if (tab.posicaoValida(posMov) && existeInimigo(posMov))
                 {
-                    mat[pos.linha, pos.coluna] = true;
+                    mat[posMov.linha, posMov.coluna] = true;
+                }
+
+                // #jogadaespecial en passant
+                if (posicao.linha == 3)
+                {
+                    Posicao posEsquerdaBr = new Posicao(posicao.linha, posicao.coluna - 1);
+                    if (tab.posicaoValida(posEsquerdaBr) && existeInimigo(posEsquerdaBr) && tab.peca(posEsquerdaBr) == partida.vulneravelEnPassant)
+                    {
+                        mat[posEsquerdaBr.linha - 1, posEsquerdaBr.coluna] = true;
+                    }
+                    Posicao posDireitaBr = new Posicao(posicao.linha, posicao.coluna + 1);
+                    if (tab.posicaoValida(posDireitaBr) && existeInimigo(posDireitaBr) && tab.peca(posDireitaBr) == partida.vulneravelEnPassant)
+                    {
+                        mat[posDireitaBr.linha - 1,posDireitaBr.coluna] = true;
+                    }
                 }
             }
             else
             {
-                pos.definirValores(posicao.linha + 1, posicao.coluna);
-                if (tab.posicaoValida(pos) && posicaoLivre(pos))
+                posMov.definirValores(posicao.linha + 1, posicao.coluna);
+                if (tab.posicaoValida(posMov) && posicaoLivre(posMov))
                 {
-                    mat[pos.linha, pos.coluna] = true;
+                    mat[posMov.linha, posMov.coluna] = true;
                 }
-                pos.definirValores(posicao.linha + 2, posicao.coluna);
-                if (tab.posicaoValida(pos) && posicaoLivre(pos) && qtdeMovimentos == 0)
+                posMov.definirValores(posicao.linha + 2, posicao.coluna);
+                if (tab.posicaoValida(posMov) && posicaoLivre(posMov) && qtdeMovimentos == 0)
                 {
-                    mat[pos.linha, pos.coluna] = true;
+                    mat[posMov.linha, posMov.coluna] = true;
                 }
-                pos.definirValores(posicao.linha + 1, posicao.coluna - 1);
-                if (tab.posicaoValida(pos) && existeInimigo(pos))
+                posMov.definirValores(posicao.linha + 1, posicao.coluna - 1);
+                if (tab.posicaoValida(posMov) && existeInimigo(posMov))
                 {
-                    mat[pos.linha, pos.coluna] = true;
+                    mat[posMov.linha, posMov.coluna] = true;
                 }
-                pos.definirValores(posicao.linha + 1, posicao.coluna + 1);
-                if (tab.posicaoValida(pos) && existeInimigo(pos))
+                posMov.definirValores(posicao.linha + 1, posicao.coluna + 1);
+                if (tab.posicaoValida(posMov) && existeInimigo(posMov))
                 {
-                    mat[pos.linha, pos.coluna] = true;
+                    mat[posMov.linha, posMov.coluna] = true;
                 }
+
+                // #jogadaespecial en passant
+                if (posicao.linha == 4)
+                {
+                    Posicao posEsquerdaPt = new Posicao(posicao.linha, posicao.coluna - 1);
+                    if (tab.posicaoValida(posEsquerdaPt) && existeInimigo(posEsquerdaPt) && tab.peca(posEsquerdaPt) == partida.vulneravelEnPassant)
+                    {
+                        mat[posEsquerdaPt.linha + 1, posEsquerdaPt.coluna] = true;
+                    }
+                    Posicao posDireitaPt = new Posicao(posicao.linha, posicao.coluna + 1);
+                    if (tab.posicaoValida(posDireitaPt) && existeInimigo(posDireitaPt) && tab.peca(posDireitaPt) == partida.vulneravelEnPassant)
+                    {
+                        mat[posDireitaPt.linha + 1, posDireitaPt.coluna] = true;
+                    }
+                }
+                
             }
 
             return mat;

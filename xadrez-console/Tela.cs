@@ -235,7 +235,7 @@ namespace xadrez_console
             }
         }
 
-        public static void exibePossiveisJogadas(PartidaDeXadrez partida, ConsoleColor aux)
+        public static void aguardaJogada(PartidaDeXadrez partida, ConsoleColor aux)
         {
             try
             {
@@ -245,15 +245,11 @@ namespace xadrez_console
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.WriteLine(" ");
                 Console.Write("Origem: ");
-                Posicao origem = Tela.lerPosicaoXadrez().toPosicao();
-                partida.validarPosicaoDeOrigem(origem);
-                bool[,] posicoesPossiveis = partida.tab.peca(origem).movimentosPossiveis();
-
+                Posicao origem = lerPosicaoXadrez().toPosicao();
+                var posPossiveis = exibePossiveisJogadas(partida, origem);
                 exibeMensagens(partida, aux);
-                imprimirTabuleiro(partida.tab, posicoesPossiveis);
+                imprimirTabuleiro(partida.tab, posPossiveis);
                 aguardaJogada(partida, origem);
-                //exibeMensagens(partida, aux);
-                //imprimirTabuleiro(partida.tab, posicoesPossiveis);
             }
             catch (TabuleiroException tex)
             {
@@ -264,6 +260,14 @@ namespace xadrez_console
                 Console.WriteLine("Aperte novamente enter para continuar...");
                 Console.ReadLine();
             }
+        }
+
+        public static bool[,] exibePossiveisJogadas(PartidaDeXadrez partida, Posicao origem)
+        {
+            partida.validarPosicaoDeOrigem(origem);
+            var posicoesPossiveis = partida.tab.peca(origem).movimentosPossiveis();
+            
+            return posicoesPossiveis;
         }
 
         public static void aguardaJogada(PartidaDeXadrez partida, Posicao origem)

@@ -18,13 +18,13 @@ namespace xadrez_console
                 {
                     Tela.exibeMensagens(partida, aux);
                     Tela.imprimirTabuleiro(partida.tab);
-                    Tela.exibePossiveisJogadas(partida, aux);
+                    Tela.aguardaJogada(partida, aux);
                 }
-                Console.Clear();
-                Tela.exibeMensagens(partida, aux);
-                Tela.imprimirTabuleiro(partida.tab);
                 if(partida.terminada)
                 {
+                    Console.Clear();
+                    Tela.exibeMensagens(partida, aux);
+                    Tela.imprimirTabuleiro(partida.tab);
                     Tela.exibeGanhador(partida);
                 }
             }
